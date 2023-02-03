@@ -1,0 +1,41 @@
+import java.util.Scanner;
+
+class ArrObj{
+	
+	int Num;
+	double arrA[];
+	
+
+	ArrObj(int Num , int size){	//������
+		
+		this.Num = Num;
+		arrA = new double[size];
+		
+		for(int i = 0 ; i < arrA.length ; i++) 
+			arrA[i] = Math.random();
+		}
+		
+	void showMe(){
+		System.out.print(Num + " : ");
+		for( double x : arrA ) {
+				System.out.printf("%7.2f", x);
+		}
+		System.out.println();
+	}
+		
+		
+}
+
+	
+
+public class ObjArrayProc {
+	
+	public static void main(String[] args) {
+		ArrObj ob1 = new ArrObj(1,5);
+		ob1.showMe();
+		ArrObj ob2 = new ArrObj(2,7);
+		ob2.showMe();
+
+	}
+	
+}//public class ObjArrayProc
