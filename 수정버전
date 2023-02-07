@@ -1,0 +1,119 @@
+import java.util.Scanner;
+import java.util.InputMismatchException;
+
+class Phone {
+	String name;
+	String tel;
+	int age;
+
+	
+	Phone(String name, String tel, int age) {//������ 1
+		this.name = name;
+		this.tel = tel;
+		this.age = age;
+	}
+
+	Phone(String name, String tel) {//������ 2
+		this(name, tel, 0);		//������1 Ȱ��
+	}
+
+	
+	void showPhone() { 
+		//System.out.println("================");
+		System.out.println("�̸� : " + name + "  ��ȭ : " + tel + "  ���� : " + age);
+		//System.out.println();
+	}
+
+	String getTel() 
+	{
+		return tel;	
+	}
+
+	void putTel(String tel) 	//�ٲٴ��Լ�
+	{
+		this.tel = tel;
+	}
+
+	int getAge()
+	{
+		return age;
+	}
+
+	void putAge(int age)		//�ٲٴ��Լ�
+	{
+		this.age = age;
+	}
+}
+
+public class PhoneMng {
+	
+	//4�� 19�� �� ��
+	
+	Phone pArr[];
+	
+	public PhoneMng(int n)	//������ 1
+	{
+		pArr = new Phone[n];
+	}
+	
+	public PhoneMng()
+	{
+		this(3);	//�ٷ� �� ������ 1�� �θ��°��� 
+	}
+	
+	public void show()
+	{	System.out.println("================");
+	
+	//try catch ������ �迭ũ�⿡���� �迭�ȿ� ��� ��� �ߴ� ������ ����ٰ���.
+			
+			try {
+				for( Phone x : pArr )		// for( ������ : �迭�� )
+				{
+					x.showPhone();				//�� ���忡 Ʈ���� ��ġ�� �Ẹ�°͵� ���	
+				}//for
+			}//try
+			catch(NullPointerException e) 
+			{
+				System.out.println("�ڷ� ����.");
+				//e.printStackTrace();
+			}//catch
+			
+				System.out.println("================");
+	}//show
+	
+
+	public static void main(String[] args) {
+		Scanner in = new Scanner(System.in);
+		
+		Phone m1 = new Phone("ȫ�浿", "114", 45);
+		Phone m2 = new Phone("john", "0559876521");	
+		Phone m3 = new Phone("Tom", "01037549576", 5);
+		
+		PhoneMng phBook;
+		
+		System.out.println("�� ���� �����ұ��? : ");
+		Scanner sc = new Scanner(System.in);
+		
+		int many;
+		
+		try {
+			many = sc.nextInt();	//���� �ȿ� �ִ� ������ ���� �ȿ����� ������.. �׷��� �ٷ� ���� int many ����
+		}
+		catch(InputMismatchException e)	//java.util.InputMismatchException
+		{
+			System.out.println("3���� ����Կ�.");
+			many = 3;
+		}
+		
+		phBook = new PhoneMng(many);	//phBook ���� , ���� PhoneMng ������ �̿�
+		
+		phBook.pArr[0] = m1;
+		phBook.pArr[1] = m2;
+		phBook.pArr[2] = m3;
+		
+		phBook.show();	//���� �������� show �Լ��� ���Ȯ��
+		
+		sc.close();
+	}
+
+}
