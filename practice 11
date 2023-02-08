@@ -1,0 +1,194 @@
+import java.util.Scanner;
+class Grade{			//��ü
+	
+	String name;
+	int math;
+	int eng;
+	
+	Grade(){		//������ -1
+		this("�Է��ʿ�", -99, -99);	//name = "�Է� �ʿ�"; math = -99; eng = -99;
+		System.out.println("Grade ��ü ����");		//�ؿ��� ���� ����ϰ� �ٽ� �ͼ� �̰� ���
+	}
+		
+	Grade(String name, int math, int eng){	//������ -2
+		this.name = name;		//this�� �������� ù�ٿ� ����� ��.
+		this.math = math;
+		this.eng = eng;
+		System.out.println("Grade ��ü ����=============");	//���� ���
+	}
+	
+	double average() {
+		double avg;
+		avg = (math + eng)/2.0;
+		return avg;
+	}
+	
+	void showGrade() {
+		System.out.println("==========================");
+		System.out.println("Name : " + name );
+		System.out.println("Math : " + math );
+		System.out.println("English : " + eng );
+		System.out.println("Average : " + average() );
+		System.out.println("==========================");
+	}
+	
+	void showGradeoneLine() {
+		System.out.print("Name : " + name );
+		System.out.print(" Math : " + math );
+		System.out.print(" English : " + eng );
+		System.out.println(" Average : " + average() );
+	}
+
+}//Class Grade
+
+
+public class GradeManager {
+
+	// 04/07 ����ϳ� �Ѱ�
+	Grade st[] ; //�迭���� �����Ѱ���	(grade�� �������� �迭�� ����)	<-> int x[] �� ���� ��ġ
+	int lastIdx;
+	
+	public GradeManager(){	//������ ����	(�迭 ���� �� �ʱⰪ �ַ���)
+		st =  new Grade[10];
+		lastIdx = 0;
+	}
+	
+	public GradeManager(int x) {	//���� �޴� ������ �ϳ� �� ��������
+		st = new Grade[x];
+		lastIdx = 0;
+	}
+	
+	int menuAns(Scanner in) {	//��ĳ�� �޴°�	 -> ��ȭ�� ���� �޴� ����
+		System.out.println("1. ��ü �߰�\n2. �迭���� ���\n3. ��ü ����\n4. ��ü ����\n0. ����\n1 ,2 ,3 ,4 ,0 �߿� �Է� : ");
+		int ans = in.nextInt();
+		in.nextLine();//�����Ⱚ û��
+		
+		return ans;
+	}
+	
+
+	Grade makeGrade(Scanner in){	//��ȯ���� Grade�� �տ� Grade ��
+		String name; int math; int eng;
+		System.out.print("�̸� : ");
+		name = in.nextLine();
+		System.out.print("���� : ");
+		math = in.nextInt();
+		System.out.print("���� : ");
+		eng = in.nextInt();
+		Grade ob = new Grade(name, math, eng);	//�� ��ü�� ����� 
+		return ob;								//��ȯ
+	}
+	
+	void showStArr(){
+		System.out.println("======================");
+		for( int i = 0; i<lastIdx ; i++ )		 
+		{	if(st[i] == null) continue;	//������ �������� null������ �������� ������ �߰�
+			st[i].showGradeoneLine(); 	//Grade�� �żҵ��� ,, ��������
+		}
+		System.out.println("======================");
+	}
+	
+	void changeStElement(Scanner in) {	//���μ��� ������ �� -> Scanner in
+		System.out.println("�ٲ� ��ȣ : ");	//0�Է½� ù��° , 1�Է½� �ι�°
+		int Num = in.nextInt();			//���� ���⼭ ������ �߸� -> 91��
+		if(st[Num] == null) {
+			System.out.println("�̹� ������ ��ü");	//���������� ��԰� �Է�������
+			return;	//��
+		}
+		st[Num].showGrade();			//�ٲ� �׸��� �´��� ������
+		System.out.print("���� : ");
+		st[Num].math = in.nextInt();
+		System.out.print("���� : ");
+		st[Num].eng = in.nextInt();
+		st[Num].showGrade();		//�ٲ� ���� �ѹ� �� ������
+	}	
+	
+	void deletStElement(Scanner in) {
+		System.out.println("������ ��ȣ : ");	//0�Է½� ù��° , 1�Է½� �ι�°
+		int Num = in.nextInt();	
+		if(st[Num] == null) {
+			System.out.println("�̹� ������ ��ü");	//���������� ��԰� �Է�������
+			return;	//��
+		}
+		in.nextLine();//���ٿ��� ģ ����ģ�� ������ -> �����Ⱚ ����
+		st[Num].showGrade();			//������ �׸��� �´��� ������
+		System.out.println("����Ȯ��(Y/N)");
+		char yn = in.nextLine().charAt(0);		//string�� ù ���ڸ� ������ yn�� ����
+		
+		if(yn == 'y' || yn == 'Y')
+			st[Num] = null;		//����
+		
+		
+	}
+	
+	public static void main(String[] args) {
+		Scanner in = new Scanner(System.in);
+		GradeManager gm = new GradeManager();
+		
+		while(true) {
+		int ans = gm.menuAns(in);
+		
+		switch(ans)
+		{
+			case 1:
+				gm.st[gm.lastIdx]= gm.makeGrade(in);		//�ϳ��� ����鼭 gm.st[gm.lastIdx] �� �������
+				gm.lastIdx++; //�� �� ������
+				break;
+			case 2:
+				gm.showStArr();
+				break;
+			case 3:
+				gm.changeStElement(in);	//�Է��� �ʿ��� �� ��ĳ�ʸ� �����
+				break;
+			case 4:
+				gm.deletStElement(in);
+			case 0:
+					break;
+		}
+		if (ans == 0)
+			break;
+		//Grade st0 = new Grade();
+		//st0.showGrade();
+		
+		//String n; int m,e;
+		//System.out.print("�̸� : ");
+		//n = in.nextLine(); 
+		//System.out.print("���� : ");
+		//m = in.nextInt();
+		//System.out.print("���� : ");
+		//e = in.nextInt();
+		
+		//Grade st1;
+		//st1=new Grade(n,m,e);
+		//st1 = new Grade();		//	Grade st1 = new Grade();
+		//st1.showGrade();		//	�ʱⰪ
+		
+		//st1.showGrade();
+		//in.nextLine();	//Ű���� ������ ����(enter)�� ����
+		
+		//Grade st2;
+		//st2 = new Grade();		//	Grade st1 = new Grade();
+		
+		//System.out.print("�̸� : ");
+		//st2.name = in.nextLine(); 
+		//System.out.print("���� : ");
+		//st2.math = in.nextInt();
+		//System.out.print("���� : ");
+		//st2.eng = in.nextInt();
+		//st2.showGrade();
+		
+		//double avg1, avg2;		//�̷����ص���
+		//avg1=st1.average();
+		//avg2=st2.average();
+		
+		//if (st1.average() > st2.average()) 
+			//System.out.print(st1.name + " " + st1.average() + " > " + st2.name + " " + st2.average());
+		//else if (st1.average() == st2.average())
+		//	System.out.print(st1.name + " " + st1.average() + " = " + st2.name + " " + st2.average());
+		//else
+		//	System.out.print(st1.name + " " + st1.average() + " < " + st2.name + " " + st2.average());
+		//System.out.println("");
+		//in.close();
+	}
+	}
+}//public class GradeManager
