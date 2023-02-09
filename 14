@@ -1,0 +1,56 @@
+import java.util.Random;
+
+class ArrObj2{
+	int No;
+	double arrA[];
+	ArrObj2(int 	No, int size){
+		this.No = No;
+		arrA = new double[size];
+		for(int i = 0; i < arrA.length; i++) {
+			arrA[i] = Math.random();
+		}
+	}
+	void showMe(){
+		System.out.print(No + ":");
+		for(double x : arrA) {
+			System.out.printf("%7.2f", x);
+		}
+		System.out.println();
+	}
+}
+
+public class ObjArrayProc2 {
+
+	static ArrObj2 whatHigh(ArrObj2 x, ArrObj2 y) {
+		int winCnt = 0;
+		int len;
+		if(x.arrA.length > y.arrA.length)
+			len = x.arrA.length;
+		else 
+			len = y.arrA.length;
+		for(int i = 0; i < len; i++) {
+			if(x.arrA[i] > y.arrA[i])
+				winCnt++;
+			else if(x.arrA[i] < y.arrA.length)
+				winCnt--;
+		}
+		if(winCnt > 0)
+			return x;
+		else if(winCnt < 0)
+			return y;
+		else{
+			System.out.print("���");
+			return x;
+		}
+	}//static whatHigh
+	
+	public static void main(String[] args) {
+		ArrObj2 ob1 = new ArrObj2(1,5);
+		ob1.showMe();
+		ArrObj2 ob2 = new ArrObj2(2,5);
+		ob2.showMe();
+		ArrObj2 high = whatHigh(ob1, ob2);
+		System.out.print("===" + high.No);
+	}
+
+}
