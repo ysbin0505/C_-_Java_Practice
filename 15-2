@@ -1,0 +1,19 @@
+package packBBB;
+import packAAA.Person;
+
+public class ExtendsTest {
+
+	public static void main(String[] args) {
+		Person p = new Person();
+		System.out.println();
+		Student s = new Student(20193072, 100);
+		
+		p.name = "Tom";
+		//p.height = 175;//������Ʈ�� �����־ ������
+		//p.weight = 60;
+		//p.setWeight(60);
+		System.out.println(p.getWeight());
+		System.out.println(s.getWeight());
+	}
+
+}
