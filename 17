@@ -1,0 +1,288 @@
+package packShape;
+
+class Shape{
+	
+	static int serialNo = 0;
+	
+	String name;
+	private int NO;
+	
+	Shape(){
+		serialNo++;
+		NO = serialNo;
+		name = "����";
+	}
+	
+	void show() {
+		System.out.println("==================");
+		System.out.println(name + "#" + NO);
+	}
+	
+	String whoAmI() {
+		return name;
+	}	
+}// class Shape
+
+class Square extends Shape{
+	int length;
+	Square(int length){
+		this.length = length;
+		this.name = "���簢��";
+	}
+	int areaCalc() {
+		return length *length;
+	}
+	
+	void show(){
+		super.show();
+		System.out.println("���� = "+ areaCalc());
+		System.out.println("�ʺ� = "+ length);
+	}
+	
+	void defineSquare() {
+		System.out.println("�ʺ� "+ length + "�� ���簢��");
+	}
+}
+
+class Rectangle extends Square{
+	int height;
+	Rectangle(int leng, int h){
+		super (leng);
+		this.name = "���簢��";
+		this.length = leng;
+		this.height = h;
+	}
+	int areaCalc(){
+		return length*height;
+	}
+	void show() {
+		super.show();
+		System.out.println("���� = " + height);
+	}
+}
+
+class Circle extends Shape{
+	int radius;
+	Circle (int radius){
+		this.radius = radius;
+		this.name = "��";
+	}
+	double areaCalc(){
+		return radius * radius * Math.PI;
+	}
+	void show() {
+		super.show();
+		System.out.println("���� = " + areaCalc());
+		System.out.println("������ = " + radius);
+	}
+	void drfineCircle() {
+		System.out.println("������" + radius + "�� ��");
+	}
+}
+
+class Oval extends Circle{
+	int radiusLong;
+	Oval(int radius, int radiusLong){
+		super(radiusLong);
+		this.name = "Ÿ��";
+		this.radius = radius;
+		this.radiusLong = radiusLong;
+	}
+	double areaCalc(){
+		return radius * radiusLong * Math.PI;
+	}
+	void show() {
+		super.show();
+		System.out.println("�� ������ : " + radiusLong);
+	}
+}
+
+
+class HandleShape {
+
+	public static void main(String[] args) {
+	Shape ob = new Shape();
+	ob.show();
+	Square obs = new Square(7);
+	obs.show();
+	Rectangle obr = new Rectangle(5,10);
+	obr.show();
+	Circle obc = new Circle(12);
+	obc.show();
+	Oval obo = new Oval(6,9);
+	obo.show();
+	
+	Shape arr[] = new Shape[5];
+	arr[0] = ob;
+	arr[1] = obs;
+	arr[2] = obr;
+	arr[3] = obc;
+	arr[4] = obo;
+	
+	System.out.println("\n++++++++++++++");
+	for(int i = 0; i<arr.length ; i++) {
+		System.out.println(i +"�� ���� name : " + arr[i].whoAmI());
+		if(arr[i] instanceof Square) {
+			Square x = (Square) arr[i];
+			System.out.print("==> Square�� �� �� �ִ�.  " );
+			x.defineSquare();}
+		if(arr[i] instanceof Circle) {
+			Circle c = (Circle) arr[i];
+			System.out.print("==> Circle�� �� �� �ִ�.  ");
+			c.drfineCircle();
+		}
+	}
+	
+	
+	
+	}
+}
+
+/*
+package packShape;
+
+class Shape{
+	
+	static int serialNo = 0;
+	
+	String name;
+	private int NO;
+	
+	Shape(){
+		serialNo++;
+		NO = serialNo;
+		name = "����";
+	}
+	
+	void show() {
+		System.out.println("==================");
+		System.out.println(name + "#" + NO);
+	}
+	
+	String whoAmI() {
+		return name;
+	}	
+}// class Shape
+
+class Square extends Shape{
+	int length;
+	
+	Square(int length){
+		this.length = length;
+		this.name = "���簢��";
+	}
+	int areaCalc() {
+		return length *length;
+	}
+	
+	void show(){
+		super.show();
+		System.out.println("���� = "+ areaCalc());
+		System.out.println("�ʺ� = "+ length);
+	}
+	
+	void defineSquare() {
+		System.out.println("�ʺ� "+ length + "�� ���簢��");
+	}
+}
+
+class Rectangle extends Square{
+	int height;
+	
+	Rectangle(int leng, int h){
+		super(leng); //�̰� �������  (�ƹ��� Ŭ������ super()�� ���� ������ ���)
+		this.name = "���簢��";
+		this.length = leng;
+		this.height = h;
+	}
+	
+	int areaCalc() {
+		return length*height;
+	}
+	
+	void show(){
+		super.show();
+		System.out.println("���� = "+ height);
+	}
+}
+
+class Circle extends Shape{
+	int radius;
+	Circle(int radius){
+		this.name="��";
+		this.radius = radius;
+	}
+	
+	double areaCalc() {
+		return radius*radius*Math.PI;
+	}
+	
+	void show() {
+		super.show();
+		System.out.println("���� = "+ areaCalc());
+		System.out.println("������ = "+ radius);
+	}
+	
+	void defineCircle() {
+		System.out.println("������ "+ radius  + "�� ��");
+	}
+}
+
+class Oval extends Circle{
+	int radiusLong;
+	Oval(int radius,int radiusLong){
+		super(radius);	//�̰͵� ��������
+		this.name= "Ÿ��";
+		this.radius = radius;
+		this.radiusLong = radiusLong;
+	}
+	
+	double areaCalc(){
+		return Math.PI*radius*radiusLong;
+	}
+	
+	void show() {
+		super.show();
+		System.out.println("�� ������ : "+radiusLong);
+	}
+}
+
+class HandleShape {
+
+	public static void main(String[] args) {
+	Shape ob = new Shape();
+	ob.show();
+	Square obs = new Square(7);
+	obs.show();
+	Rectangle obr = new Rectangle(5,10);
+	obr.show();
+	Circle obc = new Circle(12);
+	obc.show();
+	Oval obo = new Oval(6,9);
+	obo.show();
+	
+	Shape arr[] = new Shape[5];
+	arr[0] = ob;
+	arr[1] = obs;
+	arr[2] = obr;
+	arr[3] = obc;
+	arr[4] = obo;
+	
+	System.out.println("\n+++++++++++++++");
+	for(int i = 0 ; i<arr.length;i++) {
+		System.out.println(i+ "�� ���� name : " + arr[i].whoAmI());
+		if(arr[i] instanceof Square) {
+			Square x = (Square) arr[i];
+			System.out.print("==> Square�� �� �� �ִ�.");
+			x.defineSquare();
+		}
+		if(arr[i] instanceof Circle) {
+			Circle c = (Circle)arr[i];
+			System.out.print("==> Circle�� �� �� �ִ�.");
+			c.defineCircle();
+		}
+	}
+	
+	}
+}
+*/
