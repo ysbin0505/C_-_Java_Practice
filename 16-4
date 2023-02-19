@@ -1,0 +1,13 @@
+package packInterface;
+
+public interface InterShape {//public ���������.
+
+	double getLength();//public abstract �����ִ°���
+	double getHeight();
+	void putLength(double x);
+	void putHeight(double x);
+	default String sayHello() {
+		return "hello";
+	}
+	
+}
