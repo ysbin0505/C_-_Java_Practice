@@ -1,0 +1,68 @@
+package packShape;
+import packInterface.InterShape;
+
+abstract class Shape{
+	static int serialNO=0;
+	String name;
+	int NO;
+	double length=5;
+	double height=8;
+	
+	Shape(){
+		serialNO++;
+		NO = serialNO;
+		name = "����";
+	}
+	
+	abstract String whoAmI();	//�̰Ŵ� �� �������Ѵ�.
+	abstract int whatNO();		//�̰Ŵ� �� �������Ѵ�.
+	abstract double areaCalc();	//�̰Ŵ� �� �������Ѵ�.
+	abstract void show();		//�̰Ŵ� �� ������ �Ѵ�.
+	//-> ����� abstract ���� �Ұ���
+}
+
+class Rectangle extends Shape{	//Shape�� abstract�� Rectangle�� abstract�� ���߰ų� ���뿡 ���������.
+	String whoAmI() {
+		return name;
+	}
+	int whatNO() {
+		return NO;
+	}
+	double areaCalc() {
+		return 1.0/2.0*length*height;
+	}
+	void show() {
+		System.out.println(whoAmI()+" # "+whatNO());
+	}
+}
+
+class Triangle extends Rectangle implements InterShape{
+	public double getLength() {	//public �����ϸ� default�� �Ǽ� �ȉ� + �ƹ��� �������̽����� public�� ���� ����
+		return length;
+	}
+	public double getHeight() {
+		return height;
+	}
+	public void putLength(double x) {
+		if(x<0) x*=-1;	//���밪
+		length = x;
+	}
+	public void putHeight(double x) {
+		if(x<0) x*=-1;	//���밪
+		height = x;
+	}
+}
+
+class AbstractTest {
+
+	public static void main(String[] args) {
+		Shape ob1 = new Rectangle();
+		ob1.show();
+		//Shape ob1 = new Shape();
+		Shape ob2 = new Triangle();
+		ob2.show();
+		Triangle t = (Triangle)ob2;	//�ٿ�ĳ����
+		System.out.println(t.getLength());//ob1�� �������̽� implements ���ؼ� ��¾ȉ�.
+	}
+
+}
