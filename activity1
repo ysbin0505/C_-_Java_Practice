@@ -1,0 +1,212 @@
+package packMain;
+import java.util.Scanner;
+import packScore.Score;
+import packScore.ScoreExp;
+
+class ApplyMng {
+
+	Score apply[];	//�����ڵ��� Score  �迭
+	
+	ApplyMng(int size){	//������ 
+		apply= new Score[size];	// apply�� size(�迭ũ��)�� Score[]�迭�� ����
+	}
+	
+	int isThere(String x) {	//���ù�ȣ x�� �Ѱܹ޴´�.
+		for(int i = 0; i<apply.length; i++) {
+			if(apply[i] == null)	//������ ���� �߰����Ұ� Null�� ���� �ֱ� ������ ���������ʱ� ���� �ۼ�
+				continue;
+			if(apply[i].getNo().equals(x))	//apply[]�� ����� ���� �� ���ù�ȣ�� ���� ���Ұ� ������ �迭÷�� ��ȯ.
+				return i;
+		}
+		return -1;	//������ -1 ��ȯ
+	}//isThere -> ���Ҹ� ������ �� �� ÷�� Ȱ��
+	
+	int emptyIdx(){
+		for(int i = 0; i<apply.length; i++) {	//apply[] �迭�� ó������ �˻��ؼ� null�� ������ ÷�ڸ� ��ȯ.
+			if(apply[i] == null)
+				return i;
+		}
+		System.out.print("��������");	//�迭�� ��� ä������ ��� ��� �� -1��ȯ
+		return -1;
+	}//emptyIdx -> ���Ҹ� ������ �� �� ÷�� Ȱ��
+	
+	String keyInNo(){	//���ڿ� ������ ���ù�ȣ�� Scanner ��ü�� �Ѱܹ޴´�.
+		Scanner in = new Scanner(System.in);
+		System.out.print("���ù�ȣ(�Ϲ�N~, ��� E~) : ");
+		String no = in.next();	
+		no = no.trim();	//�Է¹��� ���ù�ȣ�� �¿� ������ ��� ������ �� ���ù�ȣ ��ȯ
+		return no;
+	}
+	
+	public String toString(){
+		StringBuffer st = new StringBuffer();
+		int n = 0;
+		for(int i = 0 ; i<apply.length; i++) {
+			if(apply[i] == null)
+				continue;
+			st.append(i + "-- ");
+			st.append(apply[i].toString());
+			st.append("\n");
+			n++;
+		}
+		st.append("�ѿ� : " + n + "��");
+		String st1 = new String(st);
+		return st1;
+	}
+	
+	void insertApply(Scanner in){
+		String no;
+		Score sc=null;
+		ScoreExp sce=null;
+		no=keyInNo();
+		
+		if(isThere(no)>=0) {
+			System.out.println("�ش��ȣ����");
+			return;
+		}
+		
+		if(no.charAt(0)=='N')
+			sc=new Score(no);
+		else if(no.charAt(0)=='E') {
+			System.out.print("��±Ⱓ(��): ");
+			
+			int n=in.nextInt();
+			sce=new ScoreExp(no, n);
+		}
+		else {
+			System.out.println("���п���");
+			return;
+		}
+		
+		System.out.print("������ ,(�޸�)�� �����Ͻÿ�: ");
+		String sco=in.next();
+		
+		if(sc==null) {	//Score ��ü�� ������� �ʾ��� ���
+			if(emptyIdx()>=0)	//����ִ� ÷�ڰ� 0�� �̻��� ���
+				if(sce.putScore(sco))	//ScoreExp ��ü�� �������� ����
+					apply[emptyIdx()]=sce;	//apply�迭���� ����ִ� �ڸ��� sce����
+		}
+		else {	//Score ��ü�� ����Ǿ��� ���
+			if(emptyIdx()>0)	//����ִ� ÷�ڰ� 0�� �ʰ��� ���
+				if(sc.putScore(sco))	//Score ��ü�� �������� ����
+				apply[emptyIdx()]=sc;	//apply�迭���� ����ִ� �ڸ��� sc����
+		}
+		if(apply[emptyIdx()]==null) return;	//apply�迭 ��ü�� ����ִٸ� ����
+		System.out.println(apply[emptyIdx()].toString());
+			
+		}//insertAplly
+	
+	void searchApply(Scanner in) {
+		String no;
+		no = keyInNo();
+		
+		if(isThere(no)<0) {
+			System.out.println("�ش��ȣ ����");
+			return;
+		}
+		
+		System.out.println(apply[isThere(no)].toString());
+		
+	}//searchApply
+	
+	void deleteApply(Scanner in) {
+		String no;
+		no = keyInNo();
+		
+		if(isThere(no)<0) {
+			System.out.println("�ش��ȣ ����");
+			return;
+		}
+		
+		System.out.print(apply[isThere(no)].toString());
+		System.out.println("---�����Ǿ����ϴ�.");
+		apply[isThere(no)]=null;
+		
+	}//deleteApply
+	
+	void show5ExpAplly() {
+		System.out.println("== ���5���̻� ����Ʈ == ");
+		ScoreExp sce;
+		int n=0;
+		for(int i=0;i<apply.length;i++) {
+			if(apply[i] instanceof ScoreExp) {
+				sce=(ScoreExp)apply[i];
+				if(sce.getCareer()>=5) {
+					System.out.print(i+"-- ");
+					System.out.println(sce.toString());
+					n++;
+				}
+			}
+				
+		}
+		System.out.println("�ѿ� : "+n+"��");
+	}//show5ExpAplly
+	
+	void showCntRate() {
+		int n=0;
+		int m=0;
+		for(int i=0;i<apply.length;i++) {
+			if(apply[i]==null) continue;
+			
+			if(apply[i].getNo().charAt(0)=='N')
+				n++;
+			else 
+				m++;	
+		}
+		
+		System.out.print("=== �Ϲ����ð��񰳼�:"+n);
+		System.out.print("  ������ð��񰳼�:"+m);
+		System.out.println("  ���1��簡����:"+ScoreExp.getAddRate());
+		
+	}//showCntRate
+	
+	void menu() {
+		System.out.println("--------------");
+		System.out.println("1. �Է� 2. �˻� 3. ���� 4. ���");
+		System.out.println("5. ���5���̻���� 6. ������ȸ 7. ����(��ձ���) 9.����");
+		System.out.println("���� : ");
+	}
+	
+	void mng(Scanner in)
+	{
+		while(true) {
+			menu();
+			int choice = in.nextInt();
+			in.nextLine();
+			if(choice == 9) break;
+			switch(choice) {
+			case 1 : insertApply(in); break;
+			case 2 : searchApply(in); break;
+			case 3 : deleteApply(in); break;
+			case 4 : System.out.println(this); break;
+			case 5 : show5ExpAplly(); break;
+			case 6 : showCntRate(); break;
+			case 8 : break;	//������ ������ ����
+			
+			}
+		}
+	}
+	
+	public static void main(String[] args) {
+		Score s0= new Score("N001");
+		s0.putScore("5,6,8");
+		Score s1= new ScoreExp("E123", 6);
+		s1.putScore("6,7");
+		Score s2= new Score("N011");
+		s2.putScore("6,6,9");
+		Score s3= new ScoreExp("E001", 2);
+		s3.putScore("5,9");
+		Score s4= new ScoreExp("E107", 5);
+		s4.putScore("5,7");
+		
+		Scanner in = new Scanner(System.in);
+		ApplyMng am = new ApplyMng(20);
+		am.apply[0]=s0;
+		am.apply[1]=s1;
+		am.apply[2]=s2;
+		am.apply[3]=s3;
+		am.apply[4]=s4;
+		am.mng(in);
+	}
+
+}//ApplyMng
