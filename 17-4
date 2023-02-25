@@ -1,0 +1,91 @@
+package packScore;
+import java.util.Scanner;
+import java.util.StringTokenizer;
+
+interface InterScore{	//�������̽��� �� �̻� ������ �� �����ؾ���.
+	public static final int many = 3;
+	boolean putScore(String txt);
+	double getAvg();
+	String getNo();
+	String toString();
+}//InterScore
+
+public class Score implements InterScore {	//�������̽��� �����ϱ� ������ ���� ��Ҹ� ��� �����ؾ���.
+	
+	private String No;	//���ù�ȣ
+	private int sc[];	//���� �迭
+	
+	public Score (String No) {	//������ -> ���ù�ȣ String No�� �Ѱܹ���.
+		this.No=No;	//�ʵ� No�� ����.
+		sc = new int [many];	//many ũ��� sc[]�迭�� ����
+		
+	}//Score implements InterScores
+	
+	public Score(String No, int size) {	//������ -> ���ù�ȣ(String No)�� �迭ũ��(int size)�� �Ѱܹ޴´�.
+		this.No=No;	//�ʵ� No�� ����.
+		sc=new int [size];	//size�� sc[]�迭 ����
+		
+	}//Score(String No, int size)
+	
+	public String getNo() {	//�ʵ� No�� ��ȯ
+		return No;
+	}//String getNo()
+	
+	public boolean putScore(String txt) {	//����ڰ� x,y,z �Է��Ѱ� txt�� ����
+		boolean done = true;
+		StringTokenizer st = new StringTokenizer(txt, ",");
+		
+		for(int i = 0; i<sc.length; i++) {
+			if(!st.hasMoreTokens()) {	//countToken ��� ��.	while(true)�� ���� ��
+				done = false;
+				System.out.println("���� �Է� ����");
+				break;
+			}
+			sc[i] = Integer.parseInt(st.nextToken().trim());//������� ���� ���ּ� ��������
+		}
+		return done;
+	}//putScore(String txt)
+	
+	/* StringTokenizer Ŭ���� ��ü���� ������ �о� ���� token�� ������ true 
+	 * ������ false�� return�Ѵ�.
+	 */
+	
+	
+	public double getAvg() {	//�ʵ� sc[]�迭�� ��� ��ȯ
+		double avg=0;
+		int n=0;
+		
+		for(int i=0;i<sc.length;i++) {
+			avg+=sc[i];
+			n++;
+		}
+		avg=avg/n;
+		return Math.round(avg*100)/100.0;	//-> �Ҽ��� ��° �ڸ�������.	
+	}//getAvg()
+	
+	
+	
+	public String toString() {	//�ϳ��� StringBuffer ��ü�� �ۼ��Ͽ� ��ȯ ==> ��ü���� ��¿� Ȱ��
+		StringBuffer sb=new StringBuffer();	//String�� �޸� ���ڿ� ���� ����
+		
+		sb.append(No+" ");	//No + " " ���� 
+		for(int i=0;i<sc.length;i++) {	//�����迭�� ũ�⸸ŭ
+			sb.append(sc[i]+" ");	// No + " " + sc[0] + " " + ---- 
+		}
+		sb.append("��� = "+getAvg());
+		
+		String sb1 = new String (sb);
+		return sb1;
+		
+		/*
+		 * StringBuffer st = new stringBuffer(No + " ");
+		 * for(int x : sc){
+		 * sb.append(x);
+		 * sb.append(" ");
+		 *}
+		 * sb.append("��� = " + getAvg());
+		 * return sb.toString();
+		 */
+	}//toString()
+	
+}//Score
