@@ -1,0 +1,53 @@
+package packBook;
+
+import packUser.User;
+
+public class Book {
+	private static int SN = 0;
+	private int ID;
+	private String title;
+	private User brwer;	//������ User
+	
+	public Book(String t){
+		SN++;
+		ID = SN;
+		title = t;
+		brwer = null;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+	
+	public int getID() {
+		return ID;
+	}
+	
+	public User getBrwer() {
+		return brwer;
+	}
+	
+	public void brw(User u) {	//����, User��ü�� �Ѱܹ޾� �ʵ� brwer�� ����
+		this.brwer = u;
+	}
+	
+	public void rtn() {	//�ݳ�
+		this.brwer = null;
+	}
+	
+	public String toString()
+	{
+		StringBuffer str = new StringBuffer();
+		str.append("\""+title+" : ");
+		if(brwer == null)
+		{
+			str.append("���Ⱑ��\"");
+		}
+		else
+		{
+			str.append("����� : ����ID-"+getBrwer().getID());
+		}
+		return str.toString();
+	}
+	
+}
