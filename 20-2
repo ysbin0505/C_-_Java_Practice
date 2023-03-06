@@ -1,0 +1,248 @@
+package packMain;
+
+import java.util.Scanner;
+import java.util.Set;
+
+import packBook.Book;
+import packUser.User;
+
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.InputMismatchException;
+import java.util.Iterator;
+import java.util.List;
+
+class Lib {
+	HashMap <String, ArrayList<Book>> bkTitleMap;
+	HashMap <Integer, Book> bookMap;
+	HashMap <Integer, User> userMap;
+	
+	static Scanner scan = new Scanner(System.in);
+	
+	void bkTitleMap() {
+		
+	}
+	
+	void bookMap() {
+		
+	}
+	
+	void UserMap() {
+		
+	}
+	
+	void HashMap() {
+		
+	}
+	
+	void init(){	////�׽�Ʈ�� Book�� User��ü�������ϰ� 3���� HashMap�� �߰��Ѵ�s
+		Book b = new Book("ȣȣ");
+		bookMap.put(b.getID(),b);	//HashMap <Integer, Book> bookMap;
+		
+		ArrayList<Book> lst = new ArrayList<Book>();	//Book ��ü�� ������ ArrayList lst ����
+		lst.add(b);		//lst�� b �߰�
+		
+		bkTitleMap.put(b.getTitle(), lst);	//bkTitleMap�� lst �߰�
+		
+		b = new Book("toy");
+		bookMap.put(b.getID(),b);
+		lst = new ArrayList<Book>();
+		lst.add(b);
+		bkTitleMap.put(b.getTitle(),lst);
+		
+		b= new Book("java");
+		bookMap.put(b.getID(),b);
+		lst = new ArrayList<Book>();
+		lst.add(b);
+		bkTitleMap.put(b.getTitle(), lst);
+		
+		b = new Book("ȣȣ");	//���� �̸��� å �߰�
+		bookMap.put(b.getID(), b);
+		lst = bkTitleMap.get(b.getTitle());
+		lst.add(b);
+		
+		b= new Book("ȣȣ");
+		bookMap.put(b.getID(), b);
+		lst = bkTitleMap.get(b.getTitle()); 
+		lst.add(b);
+		
+		User u = new User("��ö��", "010-1234");	//User ��ü u ����
+		userMap.put(u.getID(),u);
+		u = new User("�ų���", "010-3456");
+		userMap.put(u.getID(),u);
+		u = new User("���Ѵ�", "055-5846");
+		userMap.put(u.getID(),u);
+		u = new User("��ö��", "010-9876");
+		userMap.put(u.getID(),u);
+		borrowBookByID(4,4);
+		borrowBookByID(2,3);
+		borrowBookByID(2,1);
+	}
+	
+	private void borrowBookByID(int uid, int bid) {	//�Ű� �μ� : User�� ID uid�� Book�� ID bid�� �Ѱܹ޴´�.
+		User u = userMap.get(uid);	//uid�� �̿� -> userMap���� User ��ü u �˻�
+		Book b = bookMap.get(bid);	//bid�� �̿� -> bookMap���� Book ��ü b �˻�
+		b.brw(u);
+		u.brw(b);
+		System.out.println(u);
+	}
+
+	public int inID(Scanner in) {
+		try {
+			int n = scan.nextInt();
+			return n;
+		}
+		catch(InputMismatchException e)	//java.util.InputMismatchException
+		{
+			System.out.println("���ڸ� �Է��ؿ�!!!");
+			int n = -999;
+			return n;
+		}
+	}
+	
+	void borrowBook() {
+		System.out.println("������ å �̸� : ");
+		String t = scan.nextLine();
+		ArrayList<Book> lst = bkTitleMap.get(t);
+		if (lst == null) {System.out.println("�ش�å ����"); return;}
+		Book findB = null;
+		for (Book x : lst)
+		{
+			if(x.getBrwer() == null) {
+				findB = x; break;}
+		}
+		if(findB == null) {
+			System.out.println("��� �����"); return;}
+		System.out.print("���� ID : ");
+		Integer uid = inID(null);
+		User u = userMap.get(uid);
+		if(u == null) {
+			System.out.println("�ش���� ID ����"); return;}
+		if(u.brw(findB)) {
+			System.out.println("�����մϴ�"); System.out.println(findB);
+			findB.brw(u);
+		}
+		System.out.println(u);
+	}
+	
+	public int returnBook(Scanner in) {
+		System.out.println("���� ID : ");
+		return 1;
+	}
+	
+	void mng(Scanner in) {
+		System.out.println("-------------");
+		System.out.println("1. å��ȸ  2. ������ȸ  3. ����  4. �ݳ�  5. ����Ʈ���  6. ����IDã��");
+		System.out.println("7. å����  8. å���  9. ����Ǽ� ������ ���� ����Ʈ  99. ����");		
+		System.out.print("���� : ");
+		
+		while(true) {
+			int choice = in.nextInt();
+			in.nextLine();
+		    if( choice == 99 ) break;
+		    switch(choice)
+		    {
+		    case 1 :searchBookMap();
+		            break;
+		    case 2 : searchUserMap();
+		    		break;
+		    case 3 : borrowBook();
+		    		break;
+		    case 4 : returnBook(in);
+		    		break;  
+		    case 5 : System.out.println(this);
+   		 			break;
+		    case 6 : searchUserMapID();
+		 			break;
+		    case 7 : addBook(in);
+		    		break;
+		    case 8 : delBook();
+		    		break;
+		    case 9 : userMapSort();
+		    		break;
+		}
+	}
+}	
+		
+	void addBook(Scanner scan) {
+		System.out.println("������ å �̸� : ");
+		String t = scan.nextLine();
+		Book b = new Book(t);
+		bookMap.put(b.getID(), b);
+		ArrayList<Book> lst = bkTitleMap.get(t);
+		if(lst == null) {
+			lst = new ArrayList<Book>();
+			lst.add(b);
+			bkTitleMap.put(t, lst);
+		}
+		else
+		{
+			lst.add(b);
+		}
+		System.out.println(b);
+	}
+	
+	void delBook() {
+		System.out.println("����� å ID : ");
+		
+	}
+	
+	void searchBookMap() {
+		System.out.println("å �̸� : ");
+	}
+	
+	void searchUserMap() {
+		System.out.println("���� ID : ");
+	}
+	
+	void searchUserMapID() {
+		System.out.println("���� �̸� : ");
+	}
+	
+	public String tostring() {
+		StringBuffer sb = new StringBuffer("==�������==\n");
+		Set <String> kset = bkTitleMap.keySet();
+		Iterator <String> it = kset.iterator();
+		String t;
+		ArrayList<Book> lst;
+		while(it.hasNext())
+		{
+			t = it.next();
+			lst = bkTitleMap.get(t);
+			for(Book b : lst) {
+				sb.append(b + "\t");
+			}
+			sb.append("\n");
+		}
+		sb.append("==�������==\n");
+			Set <Integer> idset = userMap.keySet();
+			Iterator <Integer> it2 = idset.iterator();
+			Integer id;
+			while(it2.hasNext()) {
+				id = it2.next();
+				sb.append(userMap.get(id)+ "\n");
+			}
+			return sb.toString();
+	}
+	
+	void userMapSort() {
+		ArrayList <User> uLst = new ArrayList <User>(userMap.values());
+		Collections.sort(uLst, Collections.reverseOrder());
+		for(User x : uLst) {
+			System.out.println(x);
+		}
+	}	
+	
+	public static void main(String[] args) {
+		
+		Lib lib = new Lib();
+		lib.init(); //�׽�Ʈ�� data �����
+		lib.mng(scan);
+		scan.close();
+		
+	}
+
+}
