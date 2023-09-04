@@ -1,0 +1,44 @@
+import java.util.Scanner;
+class Grade{			//��ü
+	
+	String name;
+	int math;
+	int eng;
+	
+	double average() {
+		double avg;
+		avg = (math + eng)/2.0;
+		return avg;
+	}
+	
+	void showGrade() {
+		System.out.println("==========================");
+		System.out.println("Name : " + name );
+		System.out.println("Math : " + math );
+		System.out.println("English : " + eng );
+		System.out.println("Average : " + average() );
+		System.out.println("==========================");
+	}
+	
+}//Class Grade
+
+
+public class Practice05 {
+
+	public static void main(String[] args) {
+		Scanner in = new Scanner(System.in);
+		
+		Grade st1;
+		st1 = new Grade();		//	Grade st1 = new Grade();
+		//st1.showGrade();
+		
+		System.out.print("�̸� : ");
+		st1.name = in.nextLine(); 
+		System.out.print("���� : ");
+		st1.math = in.nextInt();
+		System.out.print("���� : ");
+		st1.eng = in.nextInt();
+		st1.showGrade();
+	}
+
+}//public class GradeManager

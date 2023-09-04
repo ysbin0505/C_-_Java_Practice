@@ -1,0 +1,229 @@
+import java.util.Scanner;		//�迭 �� �żҵ�
+public class Practice02 {
+
+	public static void main(String[] args) {
+	
+		//foreachEx();
+		//array2DTest();
+		//methodTest();
+		array2dMethodTest();
+		//ExceptionTest();
+		
+		
+		}//main
+	
+	public static void ExceptionTest() {
+		
+		Scanner in = new Scanner(System.in);
+		
+		int i = 0 ;
+		double d = 0;
+		boolean isInt=false, isDouble=false;
+		
+		
+		System.out.println("����, �Ǽ� �Ǵ� ���ڿ� �Է� : ");
+		
+		String str = in.next();
+		
+		try {
+		
+		i = Integer.parseInt(str);	//str���� ��Ʈ�� ��ȯ
+		isInt=true;
+		System.out.println("int = " + i);
+		
+		}
+		catch(NumberFormatException e)
+		{
+			try {
+			d= Double.parseDouble(str);
+			isDouble = true;
+			
+			}
+			catch(NumberFormatException e1)
+			{
+				
+			}
+		}
+		
+		finally {
+			if(isInt) {
+				System.out.println("int ��ȯ����, Double ��ȯ����");
+			}
+			else if (isDouble) {
+				System.out.println("double = " + d);
+				System.out.println("Double ��ȯ����");
+			}
+			else {
+				System.out.println("only String�� ����");
+			}
+		
+		}
+		
+		
+	}//ExceptionTest
+	
+	
+	public static int[][] randomArr(){		//�������� ����@@@
+		
+		int arr[][] = new int[3][4];
+		//int arr[][];
+		//arr = new int [3][4];	new�� ������ ���� ���������� �ƴ϶� �����������.
+		
+		for(int i=0; i<arr.length; i++) {
+			for(int j=0 ; j<arr[i].length; j++) //arr[0].length -> 0�࿡ �پ��ִ� ����
+				arr[i][j]=(int)(Math.random() * 10);
+		}//���� ���� ���α׷�
+		return arr;
+	}
+	
+	public static void printArr(int arr[][]){	//����ϴ� ����@@@	���� arr���� �ٸ��� �ᵵ �� ������ �ص� �ٲ���ϱ⶧���� ����
+		for(int i=0; i<arr.length; i++) {
+			for(int j=0 ; j<arr[i].length; j++) 
+				System.out.print(arr[i][j] + "\t");
+			System.out.println();
+		}//��� ���α׷�
+		return;
+	}
+	
+	public static int makeSum(int arr[][]){	//�հ� �� ���հ� ���ϴ� ����@@@
+		
+		int sum = 0;	
+		int sumAll = 0;
+		
+		for(int i=0; i<arr.length; i++) {//sum=0; ����ٰ� �ص� ��
+			for(int j=0 ; j<arr[i].length; j++) 
+				sum += arr[i][j];	//�� ���� �����ٴ� ���� j�� �ѹ��� ���Ҵٴ� ��
+			System.out.println(i+ "�� �հ� = " + sum);
+			sumAll += sum;	
+			sum = 0;	//�� �� ���� �� ���� �ʱ�ȭ
+		}//�հ� �� �� �հ� ��� ���α׷�
+		return sumAll;
+	}
+	
+	public static void array2dMethodTest() {	//������ �� ���ִ� ���
+		
+		randomArr();	//������ �ҷ���
+		
+		int arr[][] = randomArr();	//�������� ����
+		printArr(arr);
+		int sumAll = makeSum(arr);
+		
+		System.out.println("====�� �հ� = " + sumAll);
+		
+		
+	}//array2DTest
+	
+	
+	
+	
+	public static String makeLevel(int m) {
+		String level;
+		switch(m) {
+		case 7 : case 8:
+			level = "1++";
+			break;
+		case 6:
+			level = "1+";
+			break;
+		case 5: case 4:
+			level = "1";
+			break;
+		case 3: case 2:
+			level = "2";
+			break;
+		case 1:
+			level = "3";
+			break;
+		default :
+			level = "???";
+			
+		}
+		
+		return level;
+	}
+	
+	public static void methodTest() {
+		Scanner in = new Scanner(System.in);
+		while(true) {	//�ݺ��Ϸ��� �Էº��� ��±���
+			System.out.println("�ٳ����浵 �Է�(marbling ���� ) : ");
+			int marbling = in.nextInt();	//���� �Է��� ������ �������� ����
+			String level;					//���� ���ڿ� ����
+			level = makeLevel(marbling);	//���� ���� ����ũ������ ���� ������ ������ �� ����
+			System.out.println(level);		//���� �ش��ϴ� ���� ���
+			if(level.equals("???"))			//���� ����
+				break;
+		}
+	
+	}//methodTest
+	
+	
+	//String.valueOf("A00" + i); -> �迭 ���� �� �� �ֱ�
+	
+	public static void array2DTest() {
+		int arr[][] = new int[3][4];
+		//int arr[][];
+		//arr = new int [3][4];	new�� ������ ���� ���������� �ƴ϶� �����������.
+		
+		for(int i=0; i<arr.length; i++) {
+			for(int j=0 ; j<arr[i].length; j++) //arr[0].length -> 0�࿡ �پ��ִ� ����
+				arr[i][j]=(int)(Math.random() * 10);
+		}//���� ���� ���α׷�
+		
+		for(int i=0; i<arr.length; i++) {
+			for(int j=0 ; j<arr[i].length; j++) 
+				System.out.print(arr[i][j] + "\t");
+			System.out.println();
+		}//��� ���α׷�
+		
+		int sum = 0;	
+		int sumAll = 0;
+		
+		for(int i=0; i<arr.length; i++) {//sum=0; ����ٰ� �ص� ��
+			for(int j=0 ; j<arr[i].length; j++) 
+				sum += arr[i][j];	//�� ���� �����ٴ� ���� j�� �ѹ��� ���Ҵٴ� ��
+			System.out.println(i+ "�� �հ� = " + sum);
+			sumAll += sum;	
+			sum = 0;	//�� �� ���� �� ���� �ʱ�ȭ
+		}//�հ� �� �� �հ� ��� ���α׷�
+		System.out.println("====�� �հ� = " + sumAll);
+		
+		
+	}//array2DTest
+	
+	
+	
+	public static void foreachEx() {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("5���� ������ �Է��Ͻÿ�.(3�� ����� ���)");
+		
+		int arr[] = new int[5];
+		
+		
+		for(int i=0 ; i<arr.length ; i++ )
+			arr[i] = scanner.nextInt();
+		
+		for(int i=0 ; i<arr.length ; i++ )
+			System.out.print(arr[i] + "\t");	//�迭 ��ü ���
+		System.out.println();
+		
+		int cnt = 0;
+		for( int n : arr)	//n�� �迭 ��ü
+		{
+			if(n % 3 != 0)	//3�� ����� �ƴҶ�
+				continue;	//�Ѿ��
+			System.out.print(n + " ");	//3�� ����϶� ���
+			cnt++;
+		}	
+		System.out.println("(" + cnt + "��)");
+		
+		int i = 0;
+		for(int n : arr)	//n�� �迭 ��ü	
+		{
+			arr[i++] *= 10; //n *= 10; �迭�� �ٲ��� ���� arr[i++]ó�� �迭�� ���������.
+		}
+		for (int n : arr)	//*10�̵� �迭�� ���
+			System.out.print(n + " ");
+		
+}//foreachEx
+	
+	}//class

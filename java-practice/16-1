@@ -1,0 +1,26 @@
+package packAAA;
+
+public class Person {	//class�� protected�� �� ��. only public�� ��밡��
+	private int weight = 50;
+	int age;
+	protected int height;
+	public String name;
+	
+	public Person(){
+		System.out.println("���� Person");
+	}
+	
+	public Person(int w) {
+		weight = w;
+		System.out.println("���� Person");
+	}
+	
+	protected void setWeight(int w)
+	{
+		weight = w;
+	}
+
+	public int getWeight() {
+		return weight;
+	}
+}

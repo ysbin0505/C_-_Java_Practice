@@ -1,0 +1,69 @@
+package packUser;
+
+import java.util.ArrayList;
+import packBook.Book;
+
+public class User {
+	private static int SN = 0;
+	private String name;	//������̸�
+	private int ID;			//ID
+	String tel;		//��ȭ��ȣ
+	private ArrayList <Book> brwLst;
+	
+	
+	public User(String name, String tel){
+		SN++;
+		this.SN = SN;
+		this.name = name;
+		this.tel = tel;
+		brwLst = new ArrayList<Book>();		
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public int getID() {
+		return ID;
+	}
+	
+	public ArrayList getBrwLst(){
+		return brwLst;
+	}
+	
+	public boolean brw(Book b) {		//����
+		boolean r = true;
+		for(Book x : brwLst)
+		if(b.getTitle().equals(x.getTitle())) {
+			System.out.println("�̹� ���� �̸��� å�� ������");
+			r= false;
+			break;
+		}
+		if(r) brwLst.add(b);
+		return r;
+	}
+	
+	public boolean rtn(Book b) {
+		if(brwLst.contains(b)) {
+			brwLst.remove(b);
+			return true;
+		}
+		else
+			System.out.println("���� ������ ����.");
+		return false;
+	}
+	
+	public String toString() {
+		StringBuffer sb = new StringBuffer("ID " + ID + "-" + name + "-" + tel + " ���⳻�� : ");
+		for(Book x : brwLst)
+		{
+			sb.append(x.getID()+ "-" + x.getTitle() + "");
+		}
+		sb.append("�� " + brwLst.size() + "��");
+		return sb.toString();
+	}
+	
+	public int compareTo(Object other) {
+		return brwLst.size()- ((User)(other)).getBrwLst().size();
+	}
+}

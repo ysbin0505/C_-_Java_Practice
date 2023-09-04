@@ -1,0 +1,36 @@
+package packScore;
+
+public class ScoreExp extends Score{
+	private static double addRate=1.5;	//��°�����
+	private int career;	//��³��
+	public static final int many =2;	//�����迭�� ũ�� = ���ð��񰳼�
+	
+	public ScoreExp(String No, int career) {//������ public Score(String No, int size)�� ��
+		super(No, many);	//manyũ��� sc[]����
+		this.career=career;	
+	}//ScoreExp(String No, int career)
+	
+	public double getAvg() {	//��� ��ȯ
+		
+		return super.getAvg()+career*addRate;
+		
+	}//getAvg()
+	
+	public String toString() {	//�ϳ��� StringBuffer ��ü�� �ۼ��Ͽ� ��ȯ ==> ��ü���� ��¿� Ȱ��
+		StringBuffer st = new StringBuffer();	//String�� �޸� ���ڿ� ���� ����
+		st.append(super.toString());	//Score.toString() �ҷ��ͼ� �߰�
+		st.append(" ���("+career+"��)");	//��� ���� �߰�
+		
+		String st1 =new String(st);	//st1�� ����
+		return st1;	//ScoreExp.toSring()�� st1 ��ȯ
+		
+	}//toString()
+	
+	public int getCareer() {
+		return career;
+	}//getCareer() -> ��³�� ��ȯ
+	
+	public static double getAddRate() {
+		return addRate;
+	}//getAddRate() -> ��°����� ��ȯ
+}

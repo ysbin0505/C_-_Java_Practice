@@ -1,0 +1,25 @@
+package PackAAA;
+
+public class ClassAAA {
+	
+	public int f1;
+	//private int f2;
+	int f2;
+	
+	public ClassAAA()
+	{
+		f1=10;
+		f2=20;
+		
+	}
+	
+	public int getF2()
+	{
+		return f2;
+	}
+	
+	public void putF2(int x)
+	{
+		f2=x;
+	}
+}

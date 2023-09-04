@@ -1,0 +1,297 @@
+package packHashMap;
+
+import java.util.Scanner;
+import java.util.StringTokenizer;
+import java.util.Vector;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.Iterator;
+
+interface InterScore{
+	public static final int many = 3;
+	boolean putScore(String txt);
+	double getAvg();
+	String getNo();
+	String toString();
+}
+
+class Score implements InterScore, Comparable<Score>
+{
+	private String No;
+	private int sc[];	
+	
+	public int compareTo(Score other) {
+		//return No.compareTo(other.No);
+		/*double my = getAvg();
+		double your = other.getAvg();
+		return (int)(my - your);*/
+		
+		Double my = getAvg(); //��ü ����� ���� �޼ҵ� ���
+		Double your = other.getAvg();
+		return my.compareTo(your);		//����
+	}
+	
+	public Score(String No)
+	{
+		this.No = No;
+		sc = new int[many];
+	}
+	public Score(String No, int size)
+	{
+		this.No = No;
+		sc = new int[size];
+	}
+	
+	public boolean putScore(String txt)
+	{   boolean done=true;
+		StringTokenizer st = new StringTokenizer(txt,",");
+		for(int i=0; i<sc.length; i++)
+		{	if ( ! st.hasMoreTokens() ) 
+			{ done=false; 
+			  System.out.println("���� �Է� ����");
+			  break;
+			}
+		    sc[i] = Integer.parseInt(st.nextToken().trim());
+		}
+		return done;
+	}
+	
+	public double getAvg()
+	{   double avg=0;
+	    for(int x : sc) { avg += x; }
+	    avg = avg / sc.length;
+	    avg = Math.round(avg*100) / 100.0;
+	    return avg;
+	}		
+	
+	public String toString()
+	{   StringBuffer sb = new StringBuffer(No+"  ");
+	    for(int x : sc)
+	    {   sb.append(x); sb.append("  ");	    	
+	    }
+	    sb.append("��� = "+getAvg());
+	    return sb.toString();		 	
+	}
+	
+	public String getNo()
+	{
+		return No;
+	}    
+}   // class Score
+
+class ScoreExp extends Score {
+	private static double addRate=1.5; 
+    private int career;
+    public static final int many = 2;
+	public ScoreExp(String No, int y)
+	{   super(No, ScoreExp.many);
+		career = y;
+	}	
+	
+	public double getAvg()
+	{   double avg=0;
+	    avg=super.getAvg();
+	    avg += career * addRate;
+	    return avg;
+	}		
+	// �� ���� mtds ����
+} // class ScoreExp 
+
+
+class ApplyMngHashMap {
+	HashMap<String, Score> apply;
+	
+	ApplyMngHashMap(int size)
+	{
+		apply =  new HashMap<String, Score>();
+	}
+	
+	/*
+	int isThere(String x)
+	{   
+		for (int i=0; i<apply.length; i++)
+		{
+			if ( apply[i] == null ) continue;
+			if( apply[i].getNo().equals(x) ) 
+			{	
+				return i;
+			}			
+		}
+		return -1;
+	}
+	*/	//get����Ǽ� �ʿ� ����
+	/*
+	int emptyIdx()
+	{
+		for (int i=0; i<apply.length; i++)
+		{
+			if ( apply[i] == null ) return i;
+		}
+		System.out.println("���� ����");
+		return -1;
+	}
+	*/ //put ����ϸ� Ȯ�ΰ����ؼ� �ʿ� ����
+	
+	void searchApply(Scanner in)
+	{
+		String no = keyInNo(in);
+		Score r = apply.get(no);
+		//int idx = isThere(no);
+		if( r == null ) { System.out.println("�ش��ȣ����"); return; }	//�ؽø��� �ش�Ǵ°� ������ null�� ��ȯ��
+		System.out.println(r);	//toString ���
+	}
+	
+	String keyInNo(Scanner in)
+	{
+		System.out.print("���ù�ȣ(�Ϲ�N~, ���E~) : ");
+		String no = in.nextLine();
+		return no.trim();
+	}
+	
+	void deleteApply(Scanner in)
+	{		
+		String no = keyInNo(in);
+		Score r = apply.get(no);	//�ִ��� �˻��ϴ� �Լ�
+		//int idx = isThere(no);
+		if( r == null ) { System.out.println("�ش��ȣ����"); return; }
+		r = apply.remove(no);	//remove�ϸ� �����Ѱ��� ������ �Ǵµ� �װ��� r�� ����
+		System.out.println( r +"---�����Ǿ����ϴ�.");	
+		//apply[idx] = null;
+	}
+	
+
+	void insertApply(Scanner in)
+	{   String no = keyInNo(in);
+	    //int idx = isThere(no);
+		Score r = apply.get(no);
+		if( r != null )//�߰��Ϸ��°� �̹� �ִٸ�(��������ʴٸ�) 
+			{ System.out.println("�ش��ȣ����"); return;}		
+		Score s;
+	    if( no.charAt(0) == 'N' )
+	    	 s = new Score(no);
+		else if ( no.charAt(0) == 'E')
+		{	System.out.print("��±Ⱓ(��) : ");
+		  	int y = in.nextInt();
+			 s = new ScoreExp(no,y);
+			 in.nextLine();
+		}
+		else  {
+			System.out.println("���� ����");
+			return;
+		}
+	    System.out.print("������ ,�� �����Ͻÿ�. : ");
+		String scoreTxt = in.nextLine();
+		if( s.putScore(scoreTxt)  ) 
+		{	
+			apply.put(no, s);// (key,value)	-> ����
+			System.out.println(apply.get(no));	//Score ��ü ���ð��� -> ��ȸ
+			//int k = emptyIdx();
+		   /* if( k != -1 )
+			{ apply[k] = s;			
+			  System.out.println(apply[k]);
+			}*/
+		}	
+	}
+	
+	public String toString()
+	{   int cnt=0;
+		StringBuffer sb = new StringBuffer("==���ø���Ʈ==\n");
+		
+		Set <String> kset = apply.keySet();	//key�� ����ȭ��Ŵ
+		Iterator<String> it = kset.iterator();	//it�� ������ȸ�� �����ϰ� ����
+		
+		while(it.hasNext())	//�� ������ ����
+		{
+			String no = it.next();	//����ȭ�� key�� �ϳ��� ����
+			sb.append(apply.get(no) + "\n"); //���ù�ȣ�� ������ �ؽøʿ� �ִ� Score ��ü�� ���
+		}
+		/*
+	    for(int i=0; i<apply.length; i++)
+	    {   if( apply[i] == null ) continue;
+	        sb.append(i+"-- "); sb.append(apply[i]+"\n");	
+	        cnt++;
+	    }*/	//�ؽøʿ����� ������ ���⶧���� ��ȣ�� ��� �� �ʿ䰡 ����.
+	    sb.append("�ѿ� : "+ apply.size() +"��");	//	cnt��ſ� apply.size()���� ���� �� �� ����
+	    return sb.toString();
+	}
+
+	void menu()
+	{	System.out.println("-------------");
+		System.out.println("1. �Է�  2. �˻�  3. ����  4. ���");
+		System.out.println("5. ���5���̻����  6. ������ȸ  7. ����(��ձ���)  9. ����");		
+		System.out.print("���� : ");
+	}	
+	
+	void mng(Scanner in)
+	{
+		while(true)
+		{
+			menu();			
+			int choice = in.nextInt();
+		    in.nextLine();
+		    if( choice == 9 ) break;
+		    switch(choice)
+		    {
+		    case 1 : insertApply(in);
+		            break;
+		    case 2 : searchApply(in);
+		    		break;
+		    case 3 : deleteApply(in);
+		    		break;
+		    case 4 : System.out.println(this);
+		    		break;  
+		    case 7 : Set <String> kset = apply.keySet();	//���ù�ȣ�� ����
+		    		String krr[] = kset.toArray(new String[kset.size()]);
+		    		Arrays.sort(krr);
+		    		for(String x : krr) {
+		    			System.out.println(apply.get(x));
+		    		}
+		    		break;
+		    case 11 : 
+		    		Collection<Score> vs = apply.values();
+		    		ArrayList <Score> vlst = new ArrayList <Score>(vs);
+		    		Collections.sort(vlst);	//Collections.sort(vlst,Collections.reverseOrder()); -> ��������
+		    		for(Score x : vlst) {	//Score �ȿ� ��ռ����� ���� �żҵ� �־����
+		    			System.out.println(x);
+		    		}
+		    		break;
+		   }
+		}
+	}
+	
+	// �� ���� ApplyMng mtds ����
+	
+	
+	public static void main(String[] args) {
+		Score s0 = new Score("N001");
+		s0.putScore("5,6,8");
+		Score s1 = new ScoreExp("E123", 6);
+		s1.putScore("6,7");
+		Score s2 = new Score("N011");
+		s2.putScore("6,6,9");
+		Score s3 = new ScoreExp("E001", 2);
+		s3.putScore("5,  9");
+		Score s4 = new ScoreExp("E107", 5);
+		s4.putScore("5,  7");		
+		
+			
+		Scanner in = new Scanner(System.in);
+		ApplyMngHashMap am= new ApplyMngHashMap(20);
+		
+		am.apply.put(s0.getNo(), s0);	//s0.No�� No�� �����̺����� �����߱� ������ getNo()���
+		am.apply.put(s1.getNo(), s1);
+		am.apply.put(s2.getNo(), s2);
+		am.apply.put(s3.getNo(), s3);
+		am.apply.put(s4.getNo(), s4);
+		/*am.apply[0]=s0;
+		am.apply[1]=s1;
+		am.apply[2]=s2;
+		am.apply[3]=s3;
+		am.apply[4]=s4;*/
+		am.mng(in);			
+	}
+} // class ApplyMng

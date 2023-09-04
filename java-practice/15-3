@@ -1,0 +1,22 @@
+package packBBB;
+import packAAA.Person;
+
+class Student extends Person{
+	
+	int Num;
+	
+	Student(int x, int w){	//������
+		super(w);
+		Num = x;
+		System.out.println("���� Student");
+	}
+	
+	public void set() {
+		name = "ȫ�浿";
+		height = 175;
+		//weight = 60;
+		//age = 20;//����Ʈ�� ������(public �ٿ������)
+		setWeight(60);//��ӹ޾Ƽ� �����ȳ�
+	}
+
+}
